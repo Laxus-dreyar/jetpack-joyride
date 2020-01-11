@@ -6,8 +6,13 @@ class Mandalorian:
         self.__shape = [[" ","O"," "],["-","|","-"],["/"," ","\\"]]
         self.__life = 3
         self.__score = 0
+    
+    def place(self,board,start):
+        for i in range(3):
+            for j in range(3):
+                board[self.__x + i - 1][self.__y + j - 1 - start] = self.__shape[i][j]
+    def move_right(self):
+        self.__x = self.__x + 1
 
-    def start(self,grid):
-        for i in range (25,28):
-            for j in range (20,23,1):
-                grid[i][j] = self.__shape[i-25][j-25]
+    def move_left(self):
+        self.__y = self.__y + 1
