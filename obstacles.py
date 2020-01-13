@@ -13,3 +13,7 @@ class Obstacle:
             board[x][y-1] = '-'
             board[x][y] = '-'
             board[x][y+1] = '-'
+        elif self.__shape == 3:
+            board[x+1][y-1] = '/'
+            board[x][y] = '/'
+            board[x-1][y+1] = '/'

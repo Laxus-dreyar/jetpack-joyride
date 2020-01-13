@@ -22,3 +22,12 @@ def user_input(timeout=0.1):
         pass
     signal.signal(signal.SIGALRM, signal.SIG_IGN)
     return ''
+
+def check_collision(x,y,board):
+
+    if board[x][y] == ' ':
+        return int(0)
+    elif board[x][y] == '$':
+        return int(1)
+    elif board[x][y] == '|' or board[x][y] == '-' or board[x][y] == '/':
+        return int(2)
