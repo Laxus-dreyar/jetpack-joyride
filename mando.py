@@ -4,13 +4,30 @@ class Mandalorian:
         self.__x = x
         self.__y = y
         self.__shape = [[" ","O"," "],["-","|","-"],["/"," ","\\"]]
+        self.__shape1 = [["\\","O","/"],["|"," ","|"],["/"," ","\\"]]
         self.__life = 3
         self.__score = 0
+        self.__shield = 0
     
     def place(self,board,start):
-        for i in range(3):
-            for j in range(3):
-                board[self.__x + i - 1][self.__y + start + j - 1] = self.__shape[i][j]
+        if self.__shield == 0:
+            for i in range(3):
+                for j in range(3):
+                    board[self.__x + i - 1][self.__y + start + j - 1] = self.__shape[i][j]
+        
+        else:
+            for i in range(3):
+                for j in range(3):
+                    board[self.__x + i - 1][self.__y + start + j - 1] = self.__shape1[i][j]
+
+    def activate(self):
+        self.__shield = 1
+    
+    def status_shield(self):
+        return self.__shield
+
+    def deactivate(self):
+        self.__shield = 0
 
     def clearplayer(self,board,start):
         for i in range(3):
