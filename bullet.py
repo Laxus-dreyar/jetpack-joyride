@@ -19,10 +19,9 @@ class Bullet:
     def clear(self,board,start):
         if board[self.__x][self.__y + start - 1] != '$':
             board[self.__x][self.__y + start - 1] = ' '
-
-    def update(self):
-        self.__flag = 1
     
+    def flag_sts(self):
+        return self.__flag
     def move(self,columns,board,start):
         self.__y = self.__y + 3
 

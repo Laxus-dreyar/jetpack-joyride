@@ -9,12 +9,13 @@ from mando import Mandalorian
 from Back import Background
 from obstacles import Obstacle
 from coin import Coin
+from magnet import Magnet
 
 obs_type1_placed = []
 obs_type2_placed = []
 obs_type3_placed = []
 coins_placed = []
-
+magnets = []
 def space5(x,y,board):
     for i in range(5):
         for j in range(5):
@@ -62,4 +63,14 @@ def place(board,rows):
             continue
         coins_placed.append(Coin(x,y))
         coins_placed[i].place(x,y,board)
+        i = i + 1
+
+    i = 0
+    while i <  2:
+        x =  x = random.randint(2,rows-6)
+        y = random.randint(10,200)
+        if board[x][y] != ' ':
+            continue
+        mag = Magnet(x,y)
+        coins_placed.append(mag)
         i = i + 1

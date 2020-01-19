@@ -56,23 +56,31 @@ while True:
             player.move_down(game_board.grid,game_board.curscreen,rows,columns)
 
     for i in bullets:
-        x = i.ret_x()
-        y = i.ret_y()
         i.clear(game_board.grid,game_board.curscreen)
         i.move(columns,game_board.grid,game_board.curscreen)
-        if game_board.grid[x][y+game_board.curscreen + 1] == '-':
+        x = i.ret_x()
+        y = i.ret_y()
+        fg = i.flag_sts()
+        # if fg == 0:
+        if game_board.grid[x][y+game_board.curscreen] == '-':
             for j in placing.obs_type2_placed:
                 obs_y = j.ret_y()
-                if obs_y == y + game_board.curscreen + 3:
+                if obs_y == y + game_board.curscreen:
                     j.destroy(game_board.grid)
                     i.destroy(game_board.grid,game_board.curscreen)
-        elif game_board.grid[x][y+game_board.curscreen + 1] == '|':
+        elif game_board.grid[x][y+game_board.curscreen] == '|':
             for j in placing.obs_type1_placed:
                 obs_x = j.ret_x()
                 obs_y = j.ret_y()
-                print(obs_y,obs_x)
-                quit()
-                if obs_x == x or obs_x == x-1 or obs_x == x+1 or j == obs_y:
+                if obs_x == x or obs_x == x-1 or obs_x == x+1 or y+game_board.curscreen == obs_y:
+                    j.destroy(game_board.grid)
+                    i.destroy(game_board.grid,game_board.curscreen)
+        
+        elif game_board.grid[x][y+game_board.curscreen] == '/':
+            for j in placing.obs_type3_placed:
+                obs_x = j.ret_x()
+                obs_y = j.ret_y()
+                if obs_x == x or obs_x == x-1 or obs_x == x + 1:
                     j.destroy(game_board.grid)
                     i.destroy(game_board.grid,game_board.curscreen)
         else:
