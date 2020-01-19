@@ -36,14 +36,9 @@ while True:
             tm = time.time()
 
     elif char == 'd':
-        x = player.ret_x()
-        y = player.ret_y() + game_board.curscreen
         player.move_right(game_board.grid,game_board.curscreen,rows,columns)
     
     elif char == 'a':
-        x = player.ret_x()
-        y = player.ret_y() + game_board.curscreen
-    
         player.move_left(game_board.grid,game_board.curscreen,rows,columns)
     
     elif char == 'b':
@@ -53,9 +48,6 @@ while True:
         bullets.append(new_bull)
 
     if char == 'w':
-        x = player.ret_x()
-        y = player.ret_y() + game_board.curscreen
-    
         player.move_up(game_board.grid,game_board.curscreen,rows,columns)
     
     else:
@@ -66,14 +58,11 @@ while True:
     for i in bullets:
         x = i.ret_x()
         y = i.ret_y()
-        # print(x,y)
-        # i.clear(game_board.grid,game_board.curscreen)
-        game_board.grid[x][y + game_board.curscreen] = ' '
+        game_board.grid[x][y + game_board.curscreen - 1] = ' '
+        i.clear(game_board.grid,game_board.curscreen)
         i.move(columns,game_board.grid,game_board.curscreen)
         i.place(game_board.grid,game_board.curscreen,columns)
 
-    x = player.ret_x()
-    y = player.ret_y() + game_board.curscreen
     player.clearplayer(game_board.grid,game_board.curscreen)
     if player.lives() == 0:
         quit()
