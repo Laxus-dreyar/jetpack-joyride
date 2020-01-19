@@ -12,10 +12,6 @@ from bullet import Bullet
 r,c = os.popen('stty size','r').read().split()
 rows = 30
 columns = 100
-# rows = int(r)
-# columns = int(c)
-# print(rows,columns)
-# quit()
 game_board = Field(rows,2000)
 game_board.create()
 player = Mandalorian(rows-3,10)
@@ -28,7 +24,6 @@ Back.create_ground(game_board.grid,rows)
 bullets = []
 tm = -1
 while True:
-    # os.system('clear')
     print("\033[H\033[J")
     game_board.print(columns)
     char = ness.user_input()
@@ -68,7 +63,14 @@ while True:
         if x != rows-3:
             player.move_down(game_board.grid,game_board.curscreen,rows,columns)
 
-    # for i in bullets:
+    for i in bullets:
+        x = i.ret_x()
+        y = i.ret_y()
+        # print(x,y)
+        # i.clear(game_board.grid,game_board.curscreen)
+        game_board.grid[x][y + game_board.curscreen] = ' '
+        i.move(columns,game_board.grid,game_board.curscreen)
+        i.place(game_board.grid,game_board.curscreen,columns)
 
     x = player.ret_x()
     y = player.ret_y() + game_board.curscreen

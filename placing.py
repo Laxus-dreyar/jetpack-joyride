@@ -29,7 +29,7 @@ def place(board,rows):
         if (space5(x-1,y,board)) or (space5(x-1,y,board)) or (space5(x-1,y,board)):
             continue
         obs_type1_placed.append(Obstacle(x,y,1))
-        obs_type1_placed[i].place(x,y,1,board)
+        obs_type1_placed[i].place(board)
         i = i + 1
 
     i = 0
@@ -40,7 +40,7 @@ def place(board,rows):
             i = i-1
             continue
         obs_type2_placed.append(Obstacle(x,y,2))
-        obs_type2_placed[i].place(x,y,2,board)
+        obs_type2_placed[i].place(board)
         i = i + 1
 
     i = 0
@@ -51,7 +51,7 @@ def place(board,rows):
             i = i-1
             continue
         obs_type3_placed.append(Obstacle(x,y,3))
-        obs_type3_placed[i].place(x,y,3,board)
+        obs_type3_placed[i].place(board)
         i = i + 1
 
     i = 0
