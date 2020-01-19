@@ -2,11 +2,11 @@ import signal
 import os
 import time
 import ness
+import placing
 
 from Board import Field
 from mando import Mandalorian
 from Back import Background
-from placing import place
 from bullet import Bullet
 
 r,c = os.popen('stty size','r').read().split()
@@ -18,7 +18,7 @@ player = Mandalorian(rows-3,10)
 player.place(game_board.grid,game_board.curscreen)
 
 Back = Background()
-place(game_board.grid,rows)
+placing.place(game_board.grid,rows)
 Back.create_ground(game_board.grid,rows)
 # Back.create_sky(game_board.grid)
 bullets = []
@@ -58,10 +58,25 @@ while True:
     for i in bullets:
         x = i.ret_x()
         y = i.ret_y()
-        game_board.grid[x][y + game_board.curscreen - 1] = ' '
         i.clear(game_board.grid,game_board.curscreen)
         i.move(columns,game_board.grid,game_board.curscreen)
-        i.place(game_board.grid,game_board.curscreen,columns)
+        if game_board.grid[x][y+game_board.curscreen + 1] == '-':
+            for j in placing.obs_type2_placed:
+                obs_y = j.ret_y()
+                if obs_y == y + game_board.curscreen + 3:
+                    j.destroy(game_board.grid)
+                    i.destroy(game_board.grid,game_board.curscreen)
+        elif game_board.grid[x][y+game_board.curscreen + 1] == '|':
+            for j in placing.obs_type1_placed:
+                obs_x = j.ret_x()
+                obs_y = j.ret_y()
+                print(obs_y,obs_x)
+                quit()
+                if obs_x == x or obs_x == x-1 or obs_x == x+1 or j == obs_y:
+                    j.destroy(game_board.grid)
+                    i.destroy(game_board.grid,game_board.curscreen)
+        else:
+            i.place(game_board.grid,game_board.curscreen,columns)
 
     player.clearplayer(game_board.grid,game_board.curscreen)
     if player.lives() == 0:
