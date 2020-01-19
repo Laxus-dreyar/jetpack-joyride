@@ -1,3 +1,4 @@
+import time
 class Mandalorian:
 
     def __init__(self,x,y):
@@ -8,11 +9,32 @@ class Mandalorian:
         self.__life = 3
         self.__score = 0
         self.__shield = 0
+        self.__decreaselftime = -1
     
+    def decrease_Life(self):
+        now = time.time()
+        self.__life = self.__life-1
+        self.__decreaselftime = now
+
+    def increase_score(self):
+        self.__score = self.__score + 1
+
     def place(self,board,start):
+        flg = 0
         if self.__shield == 0:
             for i in range(3):
                 for j in range(3):
+                    if board[self.__x + i - 1][self.__y + start + j - 1] == '|' or board[self.__x + i - 1][self.__y + start + j - 1] == '-' or board[self.__x + i - 1][self.__y + start + j - 1] == '/':
+                        if flg == 0:
+                            self.decrease_Life()
+                            board[self.__x + i - 1][self.__y + start + j - 1] = ' '
+                            board[self.__x + i - 1][self.__y + start + j] = ' '
+                            board[self.__x + i - 1][self.__y + start + j + 1] = ' '
+                            flg = 1
+
+                    elif board[self.__x + i - 1][self.__y + start + j - 1] == '$':
+                        self.increase_score()
+                    
                     board[self.__x + i - 1][self.__y + start + j - 1] = self.__shape[i][j]
         
         else:
@@ -33,16 +55,7 @@ class Mandalorian:
         for i in range(3):
             for j in range(3):
                 board[self.__x + i - 1][self.__y + start + j - 1] = ' ' 
-
-    def decrease_Life(self):
-        self.__life = self.__life-1
-        # self.clearplayer(board,start)
-        # self.__x = rows-3
-        # self.__y = 10
-
-    def increase_score(self):
-        self.__score = self.__score + 1
-
+                
     def check(self,start,rows,columns):
 
         if self.__y > columns - 2:
