@@ -5,6 +5,7 @@ class Field:
         self.__columns = 20000
         self.grid = []
         self.curscreen = 0
+        self.__speed = 1
 
     def create(self):
         for i in range(self.__rows):
@@ -21,13 +22,13 @@ class Field:
             print()
     
     def movescreen(self):
-        self.curscreen = self.curscreen + 1
+        self.curscreen = self.curscreen + self.__speed
 
     def change_screen(self):
         self.curscreen = 0
 
-    def upd(self,lives,score):
-        self.grid[0][self.curscreen] = "Lives: "
-        self.grid[0][self.curscreen + 1] = lives
-        self.grid[1][self.curscreen] = "Score: "
-        self.grid[1][self.curscreen + 1] = score
+    def inc_speed(self):
+        self.__speed = self.__speed + 1
+    
+    def dec_speed(self):
+        self.__speed = self.__speed - 1

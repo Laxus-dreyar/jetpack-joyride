@@ -23,10 +23,20 @@ Back.create_ground(game_board.grid,rows)
 # Back.create_sky(game_board.grid)
 bullets = []
 tm = -1
+tme_beg = time.time()
+spd = -1
+fld = 0
 while True:
+    cur_time = time.time()
     print("\033[H\033[J")
+    print("Lives: ",player.lives(),"Score: ",player.score(),"Time remaining: ",200 - (cur_time - tme_beg))
+    print(player.ret_speedup())
     game_board.print(columns)
     char = ness.user_input()
+    if spd != -1 and cur_time - spd > 5 and fld == 1:
+        player.dec_spped()
+        game_board.dec_speed()
+        fld = 0
     if char == 'q':
         quit()
     if char == ' ':
@@ -61,26 +71,28 @@ while True:
         x = i.ret_x()
         y = i.ret_y()
         fg = i.flag_sts()
-        # if fg == 0:
         if game_board.grid[x][y+game_board.curscreen] == '-':
             for j in placing.obs_type2_placed:
                 obs_y = j.ret_y()
-                if obs_y == y + game_board.curscreen:
+                if obs_y -2 == y + game_board.curscreen or obs_y - 1 == y + game_board.curscreen or obs_y == y + game_board.curscreen or obs_y + 1 == y + game_board.curscreen or obs_y + 2 == y + game_board.curscreen:
                     j.destroy(game_board.grid)
                     i.destroy(game_board.grid,game_board.curscreen)
-        elif game_board.grid[x][y+game_board.curscreen] == '|':
+
+        elif game_board.grid[x][y+game_board.curscreen] == '|' or game_board.grid[x][y+game_board.curscreen + 1] == '|' or game_board.grid[x][y+game_board.curscreen+2] == '|':
             for j in placing.obs_type1_placed:
                 obs_x = j.ret_x()
                 obs_y = j.ret_y()
-                if obs_x == x or obs_x == x-1 or obs_x == x+1 or y+game_board.curscreen == obs_y:
+                if obs_y -2 == y + game_board.curscreen or obs_y - 1 == y + game_board.curscreen or obs_y == y + game_board.curscreen or obs_y + 1 == y + game_board.curscreen or obs_y + 2 == y + game_board.curscreen:
                     j.destroy(game_board.grid)
                     i.destroy(game_board.grid,game_board.curscreen)
         
-        elif game_board.grid[x][y+game_board.curscreen] == '/':
+        elif game_board.grid[x][y+game_board.curscreen] == '/' or game_board.grid[x][y+game_board.curscreen+1] == '/' or game_board.grid[x][y+game_board.curscreen+2] == '/':
             for j in placing.obs_type3_placed:
                 obs_x = j.ret_x()
                 obs_y = j.ret_y()
-                if obs_x == x or obs_x == x-1 or obs_x == x + 1:
+                # print(obs_x,obs_y)
+                # quit()
+                if obs_x == x or obs_x == x-1 or obs_x == x + 1 or obs_y == y+game_board.curscreen or obs_y - 1 == y+game_board.curscreen or obs_y + 1== y+game_board.curscreen:
                     j.destroy(game_board.grid)
                     i.destroy(game_board.grid,game_board.curscreen)
         else:
@@ -89,9 +101,12 @@ while True:
     player.clearplayer(game_board.grid,game_board.curscreen)
     if player.lives() == 0:
         quit()
+    if player.ret_speedup() == 1 and fld == 0:
+        game_board.inc_speed()
+        spd = time.time()
+        fld = 1
     game_board.movescreen()
     player.place(game_board.grid,game_board.curscreen)
-    game_board.upd(player.lives(),player.score())
     if player.status_shield() == 1:
         tm1 = time.time()
         if tm1 - tm > 10:

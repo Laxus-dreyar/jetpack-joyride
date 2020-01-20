@@ -10,6 +10,7 @@ class Mandalorian:
         self.__score = 0
         self.__shield = 0
         self.__decreaselftime = -1
+        self.__speedup = 0
     
     def decrease_Life(self):
         now = time.time()
@@ -19,6 +20,11 @@ class Mandalorian:
     def increase_score(self):
         self.__score = self.__score + 1
 
+    def inc_speed(self):
+        self.__speedup = 1
+
+    def dec_spped(self):
+        self.__speedup = 0
     def place(self,board,start):
         flg = 0
         if self.__shield == 0:
@@ -34,7 +40,8 @@ class Mandalorian:
 
                     elif board[self.__x + i - 1][self.__y + start + j - 1] == '$':
                         self.increase_score()
-                    
+                    elif board[self.__x + i - 1][self.__y + start + j - 1] == 'M':
+                        self.inc_speed()
                     board[self.__x + i - 1][self.__y + start + j - 1] = self.__shape[i][j]
         
         else:
@@ -105,3 +112,6 @@ class Mandalorian:
     
     def score(self):
         return int(self.__score)
+
+    def ret_speedup(self):
+        return (int)(self.__speedup)

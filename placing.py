@@ -10,12 +10,20 @@ from Back import Background
 from obstacles import Obstacle
 from coin import Coin
 from magnet import Magnet
+from speedup import Speedup
 
 obs_type1_placed = []
 obs_type2_placed = []
 obs_type3_placed = []
 coins_placed = []
 magnets = []
+mag_field = []
+speedups = []
+for i in range(2000):
+    tem = []
+    for j in range(2000):
+        tem.append(0)
+    mag_field.append(tem)
 def space5(x,y,board):
     for i in range(5):
         for j in range(5):
@@ -72,5 +80,19 @@ def place(board,rows):
         if board[x][y] != ' ':
             continue
         mag = Magnet(x,y)
-        coins_placed.append(mag)
+        magnets.append(mag)
+        magnets[i].make_field(mag_field)
         i = i + 1
+    
+    i=0 
+    while i < 2:
+        # x = random.randint(2,rows-6)
+        # y = random.randint(10,20)
+        x = 5
+        y = 60
+        # if board[x][y] != ' ':
+        #     continue
+        sp = Speedup(x,y)
+        speedups.append(sp)
+        speedups[i].place(board)
+        i = i+1
