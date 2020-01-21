@@ -5,4 +5,4 @@ class Speedup:
         self.__y = y
 
     def place(self,board):
-        board[self.__x][self.__y] = 'M'
+        board[self.__x][self.__y] = 'F'

@@ -13,7 +13,7 @@ class Bullet:
         return self.__y
 
     def place(self,board,start,columns):
-        if self.__y <= columns-1 and board[self.__x][self.__y + start] != '$' and self.__flag == 0:
+        if self.__y <= columns-1 and board[self.__x][self.__y + start] != '$' and self.__flag == 0 and board[self.__x][self.__y + start] != 'F' and board[self.__x][self.__y + start] != 'M':
             board[self.__x][self.__y + start] = '*'
 
     def clear(self,board,start):

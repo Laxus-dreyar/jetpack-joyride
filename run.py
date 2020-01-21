@@ -10,10 +10,10 @@ from Back import Background
 from bullet import Bullet
 
 r,c = os.popen('stty size','r').read().split()
-# rows = 30
-# columns = 100
-rows = int(r)
-columns = int(c)
+rows = 30
+columns = 100
+# rows = int(r)
+# columns = int(c)
 game_board = Field(rows,2000)
 game_board.create()
 player = Mandalorian(rows-3,10)
@@ -99,16 +99,12 @@ while True:
             for j in placing.obs_type3_placed:
                 obs_x = j.ret_x()
                 obs_y = j.ret_y()
-                # print(obs_x,obs_y)
-                # quit()
                 if obs_x == x or obs_x == x-1 or obs_x == x + 1 or obs_y == y+game_board.curscreen or obs_y - 1 == y+game_board.curscreen or obs_y + 1== y+game_board.curscreen:
                     j.destroy(game_board.grid)
                     i.destroy(game_board.grid,game_board.curscreen)
         else:
             i.place(game_board.grid,game_board.curscreen,columns)
     
-    # player.move_right(game_board.grid,game_board.curscreen,rows,columns)
-    # player.move_up(game_board.grid,game_board.curscreen,rows,columns)
     
     x = player.ret_x()
     y = player.ret_y() + game_board.curscreen

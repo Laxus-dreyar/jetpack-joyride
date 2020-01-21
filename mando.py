@@ -40,7 +40,7 @@ class Mandalorian:
 
                     elif board[self.__x + i - 1][self.__y + start + j - 1] == '$':
                         self.increase_score()
-                    elif board[self.__x + i - 1][self.__y + start + j - 1] == 'M':
+                    elif board[self.__x + i - 1][self.__y + start + j - 1] == 'F':
                         self.inc_speed()
                     board[self.__x + i - 1][self.__y + start + j - 1] = self.__shape[i][j]
         

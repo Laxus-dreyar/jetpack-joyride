@@ -77,11 +77,11 @@ def place(board,rows):
     i = 0
     while i <  2:
         x =  x = random.randint(2,rows-6)
-        y = random.randint(10,200)
-        x = 10
-        y = 60
-        # if board[x][y] != ' ':
-        #     continue
+        y = random.randint(10,2000)
+        # x = 10
+        # y = 60
+        if board[x][y] != ' ':
+            continue
         mag = Magnet(x,y)
         magnets.append(mag)
         magnets[i].make_field(mag_field)

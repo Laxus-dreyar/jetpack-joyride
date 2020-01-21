@@ -7,7 +7,7 @@ class Magnet():
     def place(self,board):
         x = self.__x
         y = self.__y
-        board[x][y] = 'G'
+        board[x][y] = 'M'
 
     def make_field(self,board):
         x = self.__x
