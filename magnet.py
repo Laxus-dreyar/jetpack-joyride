@@ -4,8 +4,11 @@ class Magnet():
         self.__x = x
         self.__y = y
 
-    def place(self,x,y,board):
+    def place(self,board):
+        x = self.__x
+        y = self.__y
         board[x][y] = 'G'
+
     def make_field(self,board):
         x = self.__x
         y = self.__y

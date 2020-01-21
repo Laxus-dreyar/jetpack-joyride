@@ -73,6 +73,7 @@ while True:
         if x != rows-3:
             player.move_down(game_board.grid,game_board.curscreen,rows,columns)
 
+
     for i in bullets:
         i.clear(game_board.grid,game_board.curscreen)
         i.move(columns,game_board.grid,game_board.curscreen)
@@ -105,52 +106,12 @@ while True:
                     i.destroy(game_board.grid,game_board.curscreen)
         else:
             i.place(game_board.grid,game_board.curscreen,columns)
-
-    player.clearplayer(game_board.grid,game_board.curscreen)
-    if player.lives() == 0:
-        quit()
-    if player.ret_speedup() == 1 and speedup_flag == 0:
-        game_board.inc_speed()
-        last_speedup = time.time()
-        speedup_flag = 1
-
+    
+    # player.move_right(game_board.grid,game_board.curscreen,rows,columns)
+    # player.move_up(game_board.grid,game_board.curscreen,rows,columns)
+    
     x = player.ret_x()
     y = player.ret_y() + game_board.curscreen
-    # if placing.mag_field[x][y+game_board.curscreen] == 1:
-    #     player.move_right(game_board.grid,game_board.curscreen,rows,columns)
-    #     player.move_down(game_board.grid,game_board.curscreen,rows,columns)
-
-    # elif placing.mag_field[x][y+game_board.curscreen] == 2:
-    #     player.move_left(game_board.grid,game_board.curscreen,rows,columns)
-    #     player.move_down(game_board.grid,game_board.curscreen,rows,columns)
-
-    # elif placing.mag_field[x][y+game_board.curscreen] == 3:
-    #     player.move_right(game_board.grid,game_board.curscreen,rows,columns)
-    #     player.move_up(game_board.grid,game_board.curscreen,rows,columns)
-    
-    # elif placing.mag_field[x][y+game_board.curscreen] == 4:
-    #     player.move_left(game_board.grid,game_board.curscreen,rows,columns)
-    #     player.move_up(game_board.grid,game_board.curscreen,rows,columns)
-    
-    # elif placing.mag_field[x][y+game_board.curscreen] == 5:
-    #     player.move_right(game_board.grid,game_board.curscreen,rows,columns)
-    #     # player.move_up(game_board.grid,game_board.curscreen,rows,columns)
-
-    # elif placing.mag_field[x][y+game_board.curscreen] == 6:
-    #     player.move_left(game_board.grid,game_board.curscreen,rows,columns)
-    #     # player.move_up(game_board.grid,game_board.curscreen,rows,columns)
-    
-    # elif placing.mag_field[x][y+game_board.curscreen] == 7:
-    #     # player.move_right(game_board.grid,game_board.curscreen,rows,columns)
-    #     player.move_down(game_board.grid,game_board.curscreen,rows,columns)
-
-    # elif placing.mag_field[x][y+game_board.curscreen] == 8:
-    #     # player.move_right(game_board.grid,game_board.curscreen,rows,columns)
-    #     player.move_up(game_board.grid,game_board.curscreen,rows,columns)
-
-    # elif placing.mag_field[x][y+game_board.curscreen] == 9:
-    #     player.move_right(game_board.grid,game_board.curscreen,rows,columns)
-    #     player.move_up(game_board.grid,game_board.curscreen,rows,columns)
     if magnet_flag == 0:
         for i in placing.magnets:
             x1 = i.ret_x()
@@ -164,11 +125,23 @@ while True:
                     player.move_up(game_board.grid,game_board.curscreen,rows,columns)
                 elif x < x1:
                     player.move_down(game_board.grid,game_board.curscreen,rows,columns)
+            i.place(game_board.grid)
+    
+    player.clearplayer(game_board.grid,game_board.curscreen)
+    
+    if player.lives() == 0:
+        quit()
+    if player.ret_speedup() == 1 and speedup_flag == 0:
+        game_board.inc_speed()
+        last_speedup = time.time()
+        speedup_flag = 1
+
     
     if magnet_flag == 0:
         magnet_flag = 1
     else:
         magnet_flag = 0
+
     game_board.movescreen()
     player.place(game_board.grid,game_board.curscreen)
     if player.status_shield() == 1:

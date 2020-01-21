@@ -85,7 +85,7 @@ def place(board,rows):
         mag = Magnet(x,y)
         magnets.append(mag)
         magnets[i].make_field(mag_field)
-        magnets[i].place(x,y,board)
+        magnets[i].place(board)
         i = i + 1
     
     i=0 
