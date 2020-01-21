@@ -10,8 +10,10 @@ from Back import Background
 from bullet import Bullet
 
 r,c = os.popen('stty size','r').read().split()
-rows = 30
-columns = 100
+# rows = 30
+# columns = 100
+rows = int(r)
+columns = int(c)
 game_board = Field(rows,2000)
 game_board.create()
 player = Mandalorian(rows-3,10)
@@ -29,9 +31,10 @@ fld = 0
 while True:
     cur_time = time.time()
     print("\033[H\033[J")
-    print("Lives: ",player.lives(),"Score: ",player.score(),"Time remaining: ",200 - (cur_time - tme_beg))
+    print('\033[0;0H')
     print(player.ret_speedup())
     game_board.print(columns)
+    print("Lives: ",player.lives(),"Score: ",player.score(),"Time remaining: ",200 - (cur_time - tme_beg))
     char = ness.user_input()
     if spd != -1 and cur_time - spd > 5 and fld == 1:
         player.dec_spped()
