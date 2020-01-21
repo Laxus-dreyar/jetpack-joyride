@@ -26,22 +26,27 @@ Back.create_ground(game_board.grid,rows)
 bullets = []
 tm = -1
 tme_beg = time.time()
-spd = -1
-fld = 0
+last_speedup = -1
+speedup_flag = 0
+magnet_flag = 0
 while True:
     cur_time = time.time()
-    print("\033[H\033[J")
+
+    # print("\033[H\033[J")
     print('\033[0;0H')
-    print(player.ret_speedup())
     game_board.print(columns)
     print("Lives: ",player.lives(),"Score: ",player.score(),"Time remaining: ",200 - (cur_time - tme_beg))
+
     char = ness.user_input()
-    if spd != -1 and cur_time - spd > 5 and fld == 1:
+    
+    if last_speedup != -1 and cur_time - last_speedup > 5 and speedup_flag == 1:
         player.dec_spped()
         game_board.dec_speed()
-        fld = 0
+        speedup_flag = 0
+    
     if char == 'q':
         quit()
+    
     if char == ' ':
         tm1 = time.time()
         if player.status_shield() == 0 and (tm == -1 or tm1 - tm > 60):
@@ -104,10 +109,66 @@ while True:
     player.clearplayer(game_board.grid,game_board.curscreen)
     if player.lives() == 0:
         quit()
-    if player.ret_speedup() == 1 and fld == 0:
+    if player.ret_speedup() == 1 and speedup_flag == 0:
         game_board.inc_speed()
-        spd = time.time()
-        fld = 1
+        last_speedup = time.time()
+        speedup_flag = 1
+
+    x = player.ret_x()
+    y = player.ret_y() + game_board.curscreen
+    # if placing.mag_field[x][y+game_board.curscreen] == 1:
+    #     player.move_right(game_board.grid,game_board.curscreen,rows,columns)
+    #     player.move_down(game_board.grid,game_board.curscreen,rows,columns)
+
+    # elif placing.mag_field[x][y+game_board.curscreen] == 2:
+    #     player.move_left(game_board.grid,game_board.curscreen,rows,columns)
+    #     player.move_down(game_board.grid,game_board.curscreen,rows,columns)
+
+    # elif placing.mag_field[x][y+game_board.curscreen] == 3:
+    #     player.move_right(game_board.grid,game_board.curscreen,rows,columns)
+    #     player.move_up(game_board.grid,game_board.curscreen,rows,columns)
+    
+    # elif placing.mag_field[x][y+game_board.curscreen] == 4:
+    #     player.move_left(game_board.grid,game_board.curscreen,rows,columns)
+    #     player.move_up(game_board.grid,game_board.curscreen,rows,columns)
+    
+    # elif placing.mag_field[x][y+game_board.curscreen] == 5:
+    #     player.move_right(game_board.grid,game_board.curscreen,rows,columns)
+    #     # player.move_up(game_board.grid,game_board.curscreen,rows,columns)
+
+    # elif placing.mag_field[x][y+game_board.curscreen] == 6:
+    #     player.move_left(game_board.grid,game_board.curscreen,rows,columns)
+    #     # player.move_up(game_board.grid,game_board.curscreen,rows,columns)
+    
+    # elif placing.mag_field[x][y+game_board.curscreen] == 7:
+    #     # player.move_right(game_board.grid,game_board.curscreen,rows,columns)
+    #     player.move_down(game_board.grid,game_board.curscreen,rows,columns)
+
+    # elif placing.mag_field[x][y+game_board.curscreen] == 8:
+    #     # player.move_right(game_board.grid,game_board.curscreen,rows,columns)
+    #     player.move_up(game_board.grid,game_board.curscreen,rows,columns)
+
+    # elif placing.mag_field[x][y+game_board.curscreen] == 9:
+    #     player.move_right(game_board.grid,game_board.curscreen,rows,columns)
+    #     player.move_up(game_board.grid,game_board.curscreen,rows,columns)
+    if magnet_flag == 0:
+        for i in placing.magnets:
+            x1 = i.ret_x()
+            y1 = i.ret_y()
+            if y1 > game_board.curscreen and y1 < game_board.curscreen + columns:
+                if y > y1:
+                    player.move_left(game_board.grid,game_board.curscreen,rows,columns)
+                elif y < y1:
+                    player.move_right(game_board.grid,game_board.curscreen,rows,columns)
+                if x > x1:
+                    player.move_up(game_board.grid,game_board.curscreen,rows,columns)
+                elif x < x1:
+                    player.move_down(game_board.grid,game_board.curscreen,rows,columns)
+    
+    if magnet_flag == 0:
+        magnet_flag = 1
+    else:
+        magnet_flag = 0
     game_board.movescreen()
     player.place(game_board.grid,game_board.curscreen)
     if player.status_shield() == 1:

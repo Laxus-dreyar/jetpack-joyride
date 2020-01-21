@@ -24,6 +24,7 @@ for i in range(2000):
     for j in range(2000):
         tem.append(0)
     mag_field.append(tem)
+
 def space5(x,y,board):
     for i in range(5):
         for j in range(5):
@@ -77,21 +78,24 @@ def place(board,rows):
     while i <  2:
         x =  x = random.randint(2,rows-6)
         y = random.randint(10,200)
-        if board[x][y] != ' ':
-            continue
+        x = 10
+        y = 60
+        # if board[x][y] != ' ':
+        #     continue
         mag = Magnet(x,y)
         magnets.append(mag)
         magnets[i].make_field(mag_field)
+        magnets[i].place(x,y,board)
         i = i + 1
     
     i=0 
     while i < 2:
-        # x = random.randint(2,rows-6)
-        # y = random.randint(10,20)
-        x = 5
-        y = 60
-        # if board[x][y] != ' ':
-        #     continue
+        x = random.randint(2,rows-6)
+        y = random.randint(10,2000)
+        # x = 5
+        # y = 60
+        if board[x][y] != ' ':
+            continue
         sp = Speedup(x,y)
         speedups.append(sp)
         speedups[i].place(board)
