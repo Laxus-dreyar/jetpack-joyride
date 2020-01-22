@@ -25,7 +25,7 @@ class Field:
         self.__curscreen = self.__curscreen + self.__speed
 
     def change_screen(self):
-        self.__curscreen = 0
+        self.curscreen = 0
 
     def inc_speed(self):
         self.__speed = self.__speed + 1

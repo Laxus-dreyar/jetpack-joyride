@@ -96,6 +96,9 @@ while True:
         for j in placing.obs_type1_placed:
             obs_x = j.ret_x()
             obs_y = j.ret_y()
+            obs_fg = j.get_flag()
+            if(obs_fg == 1):
+                continue
             fg = i.flag_sts()
             if (obs_y -2 == y + start_screen or obs_y - 1 == y + start_screen or obs_y == y + start_screen or obs_y + 1 == y + start_screen or obs_y + 2 == y + start_screen) and fg == 0 and (x == obs_x or x == obs_x + 1 or x == obs_x -1):
                 j.destroy(game_board.grid)
@@ -105,6 +108,9 @@ while True:
             obs_x = j.ret_x()
             fg = i.flag_sts()
             obs_y = j.ret_y()
+            obs_fg = j.get_flag()
+            if(obs_fg == 1):
+                continue
             if ((obs_x == x or obs_x == x-1 or obs_x == x + 1) and (obs_y == y+start_screen or obs_y - 1 == y+start_screen or obs_y + 1== y+start_screen or obs_y + 2== y+start_screen or obs_y - 2== y+start_screen)) and fg == 0:
                 j.destroy(game_board.grid)
                 i.destroy(game_board.grid,start_screen,speed)
