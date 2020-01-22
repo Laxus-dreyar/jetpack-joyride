@@ -31,7 +31,6 @@ speedup_flag = 0
 magnet_flag = 0
 while True:
     cur_time = time.time()
-
     # print("\033[H\033[J")
     print('\033[0;0H')
     game_board.print(columns)
@@ -75,7 +74,8 @@ while True:
 
 
     for i in bullets:
-        i.clear(game_board.grid,game_board.curscreen)
+        speed = game_board.get_speed()
+        i.clear(game_board.grid,game_board.curscreen,speed)
         i.move(columns,game_board.grid,game_board.curscreen)
         x = i.ret_x()
         y = i.ret_y()
@@ -83,25 +83,28 @@ while True:
         if game_board.grid[x][y+game_board.curscreen] == '-':
             for j in placing.obs_type2_placed:
                 obs_y = j.ret_y()
-                if obs_y -2 == y + game_board.curscreen or obs_y - 1 == y + game_board.curscreen or obs_y == y + game_board.curscreen or obs_y + 1 == y + game_board.curscreen or obs_y + 2 == y + game_board.curscreen:
+                fg = i.flag_sts()
+                if (obs_y -2 == y + game_board.curscreen or obs_y - 1 == y + game_board.curscreen or obs_y == y + game_board.curscreen or obs_y + 1 == y + game_board.curscreen or obs_y + 2 == y + game_board.curscreen) and fg == 0:
                     j.destroy(game_board.grid)
-                    i.destroy(game_board.grid,game_board.curscreen)
+                    i.destroy(game_board.grid,game_board.curscreen,speed)
 
-        elif game_board.grid[x][y+game_board.curscreen] == '|' or game_board.grid[x][y+game_board.curscreen + 1] == '|' or game_board.grid[x][y+game_board.curscreen+2] == '|':
+        elif game_board.grid[x][y+game_board.curscreen] == '|' or game_board.grid[x][y+game_board.curscreen + 1] == '|' or game_board.grid[x][y+game_board.curscreen+2] == '|' or game_board.grid[x][y+game_board.curscreen - 1] == '|' or game_board.grid[x][y+game_board.curscreen - 2] == '|':
             for j in placing.obs_type1_placed:
                 obs_x = j.ret_x()
                 obs_y = j.ret_y()
-                if obs_y -2 == y + game_board.curscreen or obs_y - 1 == y + game_board.curscreen or obs_y == y + game_board.curscreen or obs_y + 1 == y + game_board.curscreen or obs_y + 2 == y + game_board.curscreen:
+                fg = i.flag_sts()
+                if (obs_y -2 == y + game_board.curscreen or obs_y - 1 == y + game_board.curscreen or obs_y == y + game_board.curscreen or obs_y + 1 == y + game_board.curscreen or obs_y + 2 == y + game_board.curscreen) and fg == 0:
                     j.destroy(game_board.grid)
-                    i.destroy(game_board.grid,game_board.curscreen)
+                    i.destroy(game_board.grid,game_board.curscreen,speed)
         
-        elif game_board.grid[x][y+game_board.curscreen] == '/' or game_board.grid[x][y+game_board.curscreen+1] == '/' or game_board.grid[x][y+game_board.curscreen+2] == '/':
+        elif game_board.grid[x][y+game_board.curscreen] == '/' or game_board.grid[x][y+game_board.curscreen+1] == '/' or game_board.grid[x][y+game_board.curscreen+2] == '/' or game_board.grid[x][y+game_board.curscreen-1] == '/' or game_board.grid[x][y+game_board.curscreen-2] == '/':
             for j in placing.obs_type3_placed:
                 obs_x = j.ret_x()
+                fg = i.flag_sts()
                 obs_y = j.ret_y()
-                if obs_x == x or obs_x == x-1 or obs_x == x + 1 or obs_y == y+game_board.curscreen or obs_y - 1 == y+game_board.curscreen or obs_y + 1== y+game_board.curscreen:
+                if (obs_x == x or obs_x == x-1 or obs_x == x + 1 or obs_y == y+game_board.curscreen or obs_y - 1 == y+game_board.curscreen or obs_y + 1== y+game_board.curscreen or obs_y + 2== y+game_board.curscreen or obs_y - 2== y+game_board.curscreen) and fg == 0:
                     j.destroy(game_board.grid)
-                    i.destroy(game_board.grid,game_board.curscreen)
+                    i.destroy(game_board.grid,game_board.curscreen,speed)
         else:
             i.place(game_board.grid,game_board.curscreen,columns)
     

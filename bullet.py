@@ -13,18 +13,21 @@ class Bullet:
         return self.__y
 
     def place(self,board,start,columns):
+        if self.__y > columns:
+            self.__flag = 1
         if self.__y <= columns-1 and board[self.__x][self.__y + start] != '$' and self.__flag == 0 and board[self.__x][self.__y + start] != 'F' and board[self.__x][self.__y + start] != 'M':
             board[self.__x][self.__y + start] = '*'
 
-    def clear(self,board,start):
-        if board[self.__x][self.__y + start - 1] != '$':
-            board[self.__x][self.__y + start - 1] = ' '
+    def clear(self,board,start,speed):
+        if board[self.__x][self.__y + start - speed] != '$':
+            board[self.__x][self.__y + start - speed] = ' '
     
     def flag_sts(self):
         return self.__flag
+
     def move(self,columns,board,start):
         self.__y = self.__y + 3
 
-    def destroy(self,board,start):
-        self.clear(board,start)
+    def destroy(self,board,start,speed):
+        self.clear(board,start,speed)
         self.__flag = 1

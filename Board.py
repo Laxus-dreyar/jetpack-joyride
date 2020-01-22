@@ -32,3 +32,9 @@ class Field:
     
     def dec_speed(self):
         self.__speed = self.__speed - 1
+
+    def get_curscreen(self):
+        return self.curscreen
+
+    def get_speed(self):
+        return self.__speed
