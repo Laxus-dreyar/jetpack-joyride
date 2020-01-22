@@ -33,7 +33,7 @@ def space5(x,y,board):
 
 def place(board,rows):
     i = 0
-    while i < 5:
+    while i < 15:
         x = random.randint(2,rows-4)
         y = random.randint(10,800-150)
         if (space5(x-1,y,board)) or (space5(x-1,y,board)) or (space5(x-1,y,board)):
@@ -43,7 +43,7 @@ def place(board,rows):
         i = i + 1
 
     i = 0
-    while i < 5:
+    while i < 15:
         x = random.randint(2,rows-4)
         y = random.randint(10,800-150)
         if (space5(x,y-1,board)) or (space5(x,y,board)) or (space5(x,y+1,board)):
@@ -54,7 +54,7 @@ def place(board,rows):
         i = i + 1
 
     i = 0
-    while i < 5:
+    while i < 15:
         x = random.randint(2,rows-4)
         y = random.randint(10,800-150)
         if (board[x-1][y+1] != ' ') or (board[x][y] != ' ') or (board[x+1][y-1] != ' '):
@@ -65,7 +65,7 @@ def place(board,rows):
         i = i + 1
 
     i = 0
-    while i < 100:
+    while i < 40:
         x = random.randint(2,rows-6)
         y = random.randint(10,800-170)
         if board[x][y] != ' ':

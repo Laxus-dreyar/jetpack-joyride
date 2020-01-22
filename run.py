@@ -17,7 +17,7 @@ r,c = os.popen('stty size','r').read().split()
 # rows = 30
 rows = int(r)-7
 columns = int(c) -3 
-game_board = Field(rows,800)
+game_board = Field(rows,0)
 game_board.create()
 player = Mandalorian(rows-3,10,game_board.get_grid())
 player.place(game_board.get_grid(),0)
@@ -229,7 +229,7 @@ while True:
             fg = i.flag_sts()
             if (bx <= x + size_boss and bx >= x) and (by > y - 7) and fg == 0:
                 i.destroy(game_board.get_grid(),start_screen,0)
-                boss.decrease_life()
+                boss.decrease_Life()
             i.clear(game_board.get_grid(),start_screen,0)
             i.move(columns,game_board.get_grid(),start_screen)
             i.place(game_board.get_grid(),start_screen,columns,1)
@@ -243,7 +243,9 @@ while True:
             i.clear(game_board.get_grid(),start_screen,0)
             if (bx == px + 1 or bx == px or bx == px-1) and (by == py+1 or by == py-1 or by == py) and fg == 0:
                 i.destroy(game_board.get_grid(),start_screen,0)
-                player.decrease_Life()
+                shield = player.status_shield()
+                if shield == 0:
+                    player.decrease_Life()
             i.move2(columns,game_board.get_grid(),start_screen)
             i.place2(game_board.get_grid(),start_screen,columns,1)
 
