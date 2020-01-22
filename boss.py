@@ -39,8 +39,8 @@ class Boss:
     
     def move_up(self):
         self.__x = self.__x - 1
-        if self.__x < 3:
-            self.__x = 3
+        if self.__x < 1:
+            self.__x = 1
 
     def move_down(self,rows):
         self.__x = self.__x + 1

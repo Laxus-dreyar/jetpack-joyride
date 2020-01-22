@@ -14,7 +14,7 @@ from boss import Boss
 os.system('reset')
 r,c = os.popen('stty size','r').read().split()
 # rows = 30
-rows = int(r)-5
+rows = int(r)-7
 columns = int(c) -3 
 game_board = Field(rows,800)
 game_board.create()
@@ -32,9 +32,12 @@ enemy_bullets = []
 
 tm = -1
 tme_beg = time.time()
+
 last_speedup = -1
 speedup_flag = 0
 magnet_flag = 0
+bullet_fg = 0
+
 boss = Boss(10,850)
 boss.make_shape()
 boss.place(game_board.grid)
@@ -42,10 +45,11 @@ boss.place(game_board.grid)
 # quit()
 while True:
     cur_time = time.time()
+    t_rem = 80 - int(cur_time - tme_beg)
     # print("\033[H\033[J")
     print('\033[0;0H')
     game_board.print(columns)
-    print("Lives: ",player.lives(),"Score: ",player.score(),"Time remaining: ",80 - int(cur_time - tme_beg))
+    print("Lives: ",player.lives(),"Score: ",player.score(),"Time remaining: ",t_rem)
 
     char = ness.user_input()
     
@@ -202,31 +206,51 @@ while True:
             if x != rows-3:
                 player.move_down(game_board.grid,start_screen,rows,math.floor(columns/2))
         
+        
         x = boss.get_x()
         y = boss.get_y()
-        size = boss.get_size()
+        size_boss = boss.get_size()
+        if bullet_fg == 0:
+            new_bull = Bullet(x,y-start_screen)
+            new_bull1 = Bullet(x+size_boss-2,y-start_screen)
+            enemy_bullets.append(new_bull)
+            enemy_bullets.append(new_bull1)
+
         for i in bullets_forboss:
             bx = i.ret_x()
             by = i.ret_y() + start_screen
             fg = i.flag_sts()
-            if (bx <= x + size + 2 and bx >= x - 2) and (by > y - 7) and fg == 0:
+            if (bx <= x + size_boss and bx >= x) and (by > y - 7) and fg == 0:
                 i.destroy(game_board.grid,start_screen,0)
                 boss.decrease_life()
-            
             i.clear(game_board.grid,start_screen,0)
             i.move(columns,game_board.grid,start_screen)
             i.place(game_board.grid,start_screen,columns,1)
         
+        for i in enemy_bullets:
+            bx = i.ret_x()
+            by = i.ret_y()
+            fg = i.flag_sts()
+            px = player.ret_x()
+            py = player.ret_y()
+            i.clear(game_board.grid,start_screen,0)
+            if (bx == px + 1 or bx == px or bx == px-1) and (by == py+1 or by == py-1 or by == py) and fg == 0:
+                i.destroy(game_board.grid,start_screen,0)
+                player.decrease_Life()
+            i.move2(columns,game_board.grid,start_screen)
+            i.place2(game_board.grid,start_screen,columns,1)
+
         player.clearplayer(game_board.grid,start_screen)
         boss.clear_boss(game_board.grid)
 
-        if x > player.ret_x():
+        if x >= player.ret_x():
             boss.move_up()
         elif x < player.ret_x():
             boss.move_down(rows)
 
-        if player.lives() == 0:
+        if player.lives() <= 0 or t_rem < 0:
             os.system('reset')
+            print("Game over you lost xd")
             quit()
         
         if boss.get_lives() == 0:
@@ -237,12 +261,15 @@ while True:
             last_speedup = time.time()
             speedup_flag = 1
 
-        game_board.movescreen()
         start_screen = game_board.get_curscreen()
         player.place(game_board.grid,start_screen)
+        bullet_fg = bullet_fg + 1
+        bullet_fg = bullet_fg %20
         boss.place(game_board.grid)
         print("Boss lives: ",boss.get_lives())
         if player.status_shield() == 1:
             tm1 = time.time()
             if tm1 - tm > 10:
                 player.deactivate()
+    
+    print()
