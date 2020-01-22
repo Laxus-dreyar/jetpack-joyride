@@ -23,6 +23,9 @@ class Field:
     
     def movescreen(self):
         self.__curscreen = self.__curscreen + self.__speed
+        if self.__curscreen > 750:
+            self.__curscreen =750
+            self.__speed = 0
 
     def change_screen(self):
         self.curscreen = 0

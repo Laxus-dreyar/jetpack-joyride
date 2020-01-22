@@ -19,9 +19,9 @@ coins_placed = []
 magnets = []
 mag_field = []
 speedups = []
-for i in range(2000):
+for i in range(800):
     tem = []
-    for j in range(2000):
+    for j in range(800):
         tem.append(0)
     mag_field.append(tem)
 
@@ -33,9 +33,9 @@ def space5(x,y,board):
 
 def place(board,rows):
     i = 0
-    while i < 25:
-        x = random.randint(2,rows-6)
-        y = random.randint(10,2000-50)
+    while i < 5:
+        x = random.randint(2,rows-4)
+        y = random.randint(10,800-150)
         if (space5(x-1,y,board)) or (space5(x-1,y,board)) or (space5(x-1,y,board)):
             continue
         obs_type1_placed.append(Obstacle(x,y,1))
@@ -43,9 +43,9 @@ def place(board,rows):
         i = i + 1
 
     i = 0
-    while i < 25:
-        x = random.randint(2,rows-6)
-        y = random.randint(10,2000-50)
+    while i < 5:
+        x = random.randint(2,rows-4)
+        y = random.randint(10,800-150)
         if (space5(x,y-1,board)) or (space5(x,y,board)) or (space5(x,y+1,board)):
             i = i-1
             continue
@@ -54,9 +54,9 @@ def place(board,rows):
         i = i + 1
 
     i = 0
-    while i < 25:
-        x = random.randint(2,rows-6)
-        y = random.randint(10,2000-50)
+    while i < 5:
+        x = random.randint(2,rows-4)
+        y = random.randint(10,800-150)
         if (board[x-1][y+1] != ' ') or (board[x][y] != ' ') or (board[x+1][y-1] != ' '):
             i = i-1
             continue
@@ -67,7 +67,7 @@ def place(board,rows):
     i = 0
     while i < 100:
         x = random.randint(2,rows-6)
-        y = random.randint(10,2000-50)
+        y = random.randint(10,800-170)
         if board[x][y] != ' ':
             continue
         coins_placed.append(Coin(x,y))
@@ -77,7 +77,7 @@ def place(board,rows):
     i = 0
     while i <  2:
         x =  x = random.randint(2,rows-6)
-        y = random.randint(10,2000)
+        y = random.randint(10,800-170)
         # x = 10
         # y = 60
         if board[x][y] != ' ':
@@ -91,7 +91,7 @@ def place(board,rows):
     i=0 
     while i < 2:
         x = random.randint(2,rows-6)
-        y = random.randint(10,2000)
+        y = random.randint(10,800-170)
         # x = 5
         # y = 60
         if board[x][y] != ' ':

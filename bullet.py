@@ -12,10 +12,10 @@ class Bullet:
     def ret_y(self):
         return self.__y
 
-    def place(self,board,start,columns):
+    def place(self,board,start,columns,flg):
         if self.__y > columns:
             self.__flag = 1
-        if self.__y <= columns-1 and board[self.__x][self.__y + start] != '$' and self.__flag == 0 and board[self.__x][self.__y + start] != 'F' and board[self.__x][self.__y + start] != 'M':
+        if self.__y <= columns-1 and board[self.__x][self.__y + start] != '$' and self.__flag == 0 and board[self.__x][self.__y + start] != 'F' and board[self.__x][self.__y + start] != 'M' and flg == 1:
             board[self.__x][self.__y + start] = '*'
 
     def clear(self,board,start,speed):
@@ -27,6 +27,9 @@ class Bullet:
 
     def move(self,columns,board,start):
         self.__y = self.__y + 3
+
+    def move2(self,columns,board,start):
+        self.__y = self.__y - 3
 
     def destroy(self,board,start,speed):
         self.clear(board,start,speed)
