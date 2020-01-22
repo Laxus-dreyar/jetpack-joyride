@@ -4,6 +4,7 @@ import time
 import ness
 import placing
 import math
+import pyfiglet 
 
 from Board import Field
 from mando import Mandalorian
@@ -153,8 +154,15 @@ while True:
         
         player.clearplayer(game_board.grid,start_screen)
         
-        if player.lives() == 0:
+        if player.lives() <= 0 or t_rem <= 0:
+            os.system('reset')
+            result = pyfiglet.figlet_format("Game over")
+            result1 = pyfiglet.figlet_format("your final score")
+            strin = str(player.score())
+            result2 = pyfiglet.figlet_format(strin)
+            print(result,result1,result2)
             quit()
+        
         if player.ret_speedup() == 1 and speedup_flag == 0:
             game_board.inc_speed()
             last_speedup = time.time()
@@ -248,12 +256,22 @@ while True:
         elif x < player.ret_x():
             boss.move_down(rows)
 
-        if player.lives() <= 0 or t_rem < 0:
+        if player.lives() <= 0 or t_rem <= 0:
             os.system('reset')
-            print("Game over you lost xd")
+            result = pyfiglet.figlet_format("Game over")
+            result1 = pyfiglet.figlet_format("your final score")
+            strin = str(player.score())
+            result2 = pyfiglet.figlet_format(strin)
+            print(result,result1,result2)
             quit()
         
         if boss.get_lives() == 0:
+            os.system('reset')
+            result = pyfiglet.figlet_format("You win")
+            result1 = pyfiglet.figlet_format("your final score")
+            strin = str(player.score() + math.floor(t_rem/5))
+            result2 = pyfiglet.figlet_format(strin)
+            print(result,result1,result2)
             quit()
             
         if player.ret_speedup() == 1 and speedup_flag == 0:
