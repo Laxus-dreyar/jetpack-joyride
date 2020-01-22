@@ -80,33 +80,31 @@ while True:
         x = i.ret_x()
         y = i.ret_y()
         fg = i.flag_sts()
-        if game_board.grid[x][y+game_board.curscreen] == '-':
-            for j in placing.obs_type2_placed:
-                obs_y = j.ret_y()
-                fg = i.flag_sts()
-                if (obs_y -2 == y + game_board.curscreen or obs_y - 1 == y + game_board.curscreen or obs_y == y + game_board.curscreen or obs_y + 1 == y + game_board.curscreen or obs_y + 2 == y + game_board.curscreen) and fg == 0:
-                    j.destroy(game_board.grid)
-                    i.destroy(game_board.grid,game_board.curscreen,speed)
+        for j in placing.obs_type2_placed:
+            obs_y = j.ret_y()
+            obs_x = j.ret_x()
+            fg = i.flag_sts()
+            if (obs_y -2 == y + game_board.curscreen or obs_y - 1 == y + game_board.curscreen or obs_y == y + game_board.curscreen or obs_y + 1 == y + game_board.curscreen or obs_y + 2 == y + game_board.curscreen) and fg == 0 and x == obs_x:
+                j.destroy(game_board.grid)
+                i.destroy(game_board.grid,game_board.curscreen,speed)
 
-        elif game_board.grid[x][y+game_board.curscreen] == '|' or game_board.grid[x][y+game_board.curscreen + 1] == '|' or game_board.grid[x][y+game_board.curscreen+2] == '|' or game_board.grid[x][y+game_board.curscreen - 1] == '|' or game_board.grid[x][y+game_board.curscreen - 2] == '|':
-            for j in placing.obs_type1_placed:
-                obs_x = j.ret_x()
-                obs_y = j.ret_y()
-                fg = i.flag_sts()
-                if (obs_y -2 == y + game_board.curscreen or obs_y - 1 == y + game_board.curscreen or obs_y == y + game_board.curscreen or obs_y + 1 == y + game_board.curscreen or obs_y + 2 == y + game_board.curscreen) and fg == 0:
-                    j.destroy(game_board.grid)
-                    i.destroy(game_board.grid,game_board.curscreen,speed)
+        for j in placing.obs_type1_placed:
+            obs_x = j.ret_x()
+            obs_y = j.ret_y()
+            fg = i.flag_sts()
+            if (obs_y -2 == y + game_board.curscreen or obs_y - 1 == y + game_board.curscreen or obs_y == y + game_board.curscreen or obs_y + 1 == y + game_board.curscreen or obs_y + 2 == y + game_board.curscreen) and fg == 0 and (x == obs_x or x == obs_x + 1 or x == obs_x -1):
+                j.destroy(game_board.grid)
+                i.destroy(game_board.grid,game_board.curscreen,speed)
         
-        elif game_board.grid[x][y+game_board.curscreen] == '/' or game_board.grid[x][y+game_board.curscreen+1] == '/' or game_board.grid[x][y+game_board.curscreen+2] == '/' or game_board.grid[x][y+game_board.curscreen-1] == '/' or game_board.grid[x][y+game_board.curscreen-2] == '/':
-            for j in placing.obs_type3_placed:
-                obs_x = j.ret_x()
-                fg = i.flag_sts()
-                obs_y = j.ret_y()
-                if (obs_x == x or obs_x == x-1 or obs_x == x + 1 or obs_y == y+game_board.curscreen or obs_y - 1 == y+game_board.curscreen or obs_y + 1== y+game_board.curscreen or obs_y + 2== y+game_board.curscreen or obs_y - 2== y+game_board.curscreen) and fg == 0:
-                    j.destroy(game_board.grid)
-                    i.destroy(game_board.grid,game_board.curscreen,speed)
-        else:
-            i.place(game_board.grid,game_board.curscreen,columns)
+        for j in placing.obs_type3_placed:
+            obs_x = j.ret_x()
+            fg = i.flag_sts()
+            obs_y = j.ret_y()
+            if ((obs_x == x or obs_x == x-1 or obs_x == x + 1) and (obs_y == y+game_board.curscreen or obs_y - 1 == y+game_board.curscreen or obs_y + 1== y+game_board.curscreen or obs_y + 2== y+game_board.curscreen or obs_y - 2== y+game_board.curscreen)) and fg == 0:
+                j.destroy(game_board.grid)
+                i.destroy(game_board.grid,game_board.curscreen,speed)
+        
+        i.place(game_board.grid,game_board.curscreen,columns)
     
     
     x = player.ret_x()
