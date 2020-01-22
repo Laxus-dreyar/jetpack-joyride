@@ -3,6 +3,7 @@ import os
 import time
 import ness
 import placing
+import math
 
 from Board import Field
 from mando import Mandalorian
@@ -10,10 +11,8 @@ from Back import Background
 from bullet import Bullet
 
 r,c = os.popen('stty size','r').read().split()
-rows = 30
-columns = 100
-# rows = int(r)
-# columns = int(c)
+rows = int(r)-3
+columns = int(c) -3 
 game_board = Field(rows,2000)
 game_board.create()
 player = Mandalorian(rows-3,10)
@@ -133,11 +132,8 @@ while True:
         last_speedup = time.time()
         speedup_flag = 1
 
-    
-    if magnet_flag == 0:
-        magnet_flag = 1
-    else:
-        magnet_flag = 0
+    magnet_flag = magnet_flag + 1
+    magnet_flag = magnet_flag%3
 
     game_board.movescreen()
     player.place(game_board.grid,game_board.curscreen)

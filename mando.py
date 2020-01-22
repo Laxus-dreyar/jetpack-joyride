@@ -71,8 +71,8 @@ class Mandalorian:
         if self.__y <  2:
             self.__y = 2
 
-        if self.__x < 4:
-            self.__x = 4
+        if self.__x < 3:
+            self.__x = 3
 
         if self.__x > rows-3:
             self.__x = rows-3

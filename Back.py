@@ -1,8 +1,8 @@
-import pyautogui 
 class Background:
     def __init__(self):
         self.__sky = "/"
         self.__ground = 'x'
+        # self.__board = board
     
     def create_sky(self,board):
         for i in range(2000):
