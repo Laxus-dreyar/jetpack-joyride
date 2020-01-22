@@ -1,12 +1,14 @@
 class Obstacle:
 
-    def __init__(self,x,y,shape):
+    def __init__(self,x,y,shape,board):
         self.__x = x
         self.__y = y
         self.__shape = shape
         self.__flag = 0
+        self.__board = board
     
-    def place(self,board):
+    def place(self,board1):
+        board = self.__board
         x = self.__x
         y = self.__y
         if self.__shape == 1:
@@ -33,7 +35,8 @@ class Obstacle:
     def get_flag(self):
         return self.__flag
 
-    def destroy(self,board):
+    def destroy(self,board1):
+        board = self.__board
         x = self.__x
         y = self.__y
         self.__flag = 1

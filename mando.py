@@ -1,21 +1,18 @@
 import time
-class Mandalorian:
+from peron import Person
+import math
+class Mandalorian(Person):
 
-    def __init__(self,x,y):
-        self.__x = x
-        self.__y = y
-        self.__shape = [[" ","O"," "],["-","|","-"],["/"," ","\\"]]
+    def __init__(self,x,y,board):
+        Person.__init__(self,x,y,board)
+        self._shape = [[" ","O"," "],["-","|","-"],["/"," ","\\"]]
         self.__shape1 = [["\\","O","/"],["|"," ","|"],["/"," ","\\"]]
-        self.__life = 3
         self.__score = 0
         self.__shield = 0
         self.__decreaselftime = -1
         self.__speedup = 0
-    
-    def decrease_Life(self):
-        now = time.time()
-        self.__life = self.__life-1
-        self.__decreaselftime = now
+        self.__timedown = int(time.time())
+        self.__last = 0
 
     def increase_score(self):
         self.__score = self.__score + 1
@@ -25,29 +22,31 @@ class Mandalorian:
 
     def dec_spped(self):
         self.__speedup = 0
-    def place(self,board,start):
+
+    def place(self,board1,start):
+        board = self._board
         flg = 0
         if self.__shield == 0:
             for i in range(3):
                 for j in range(3):
-                    if board[self.__x + i - 1][self.__y + start + j - 1] == '|' or board[self.__x + i - 1][self.__y + start + j - 1] == '-' or board[self.__x + i - 1][self.__y + start + j - 1] == '/':
+                    if board[self._x + i - 1][self._y + start + j - 1] == '|' or board[self._x + i - 1][self._y + start + j - 1] == '-' or board[self._x + i - 1][self._y + start + j - 1] == '/':
                         if flg == 0:
                             self.decrease_Life()
-                            board[self.__x + i - 1][self.__y + start + j - 1] = ' '
-                            board[self.__x + i - 1][self.__y + start + j] = ' '
-                            board[self.__x + i - 1][self.__y + start + j + 1] = ' '
+                            board[self._x + i - 1][self._y + start + j - 1] = ' '
+                            board[self._x + i - 1][self._y + start + j] = ' '
+                            board[self._x + i - 1][self._y + start + j + 1] = ' '
                             flg = 1
 
-                    elif board[self.__x + i - 1][self.__y + start + j - 1] == '$':
+                    elif board[self._x + i - 1][self._y + start + j - 1] == '$':
                         self.increase_score()
-                    elif board[self.__x + i - 1][self.__y + start + j - 1] == 'F':
+                    elif board[self._x + i - 1][self._y + start + j - 1] == 'F':
                         self.inc_speed()
-                    board[self.__x + i - 1][self.__y + start + j - 1] = self.__shape[i][j]
+                    board[self._x + i - 1][self._y + start + j - 1] = self._shape[i][j]
         
         else:
             for i in range(3):
                 for j in range(3):
-                    board[self.__x + i - 1][self.__y + start + j - 1] = self.__shape1[i][j]
+                    board[self._x + i - 1][self._y + start + j - 1] = self.__shape1[i][j]
 
     def activate(self):
         self.__shield = 1
@@ -58,57 +57,66 @@ class Mandalorian:
     def deactivate(self):
         self.__shield = 0
 
-    def clearplayer(self,board,start):
+    def clearplayer(self,board1,start):
+        board = self._board
         for i in range(3):
             for j in range(3):
-                board[self.__x + i - 1][self.__y + start + j - 1] = ' ' 
+                board[self._x + i - 1][self._y + start + j - 1] = ' ' 
                 
     def check(self,start,rows,columns):
 
-        if self.__y > columns - 2:
-            self.__y = columns - 2
+        if self._y > columns - 2:
+            self._y = columns - 2
 
-        if self.__y <  2:
-            self.__y = 2
+        if self._y <  2:
+            self._y = 2
 
-        if self.__x < 3:
-            self.__x = 3
+        if self._x < 3:
+            self._x = 3
 
-        if self.__x > rows-3:
-            self.__x = rows-3
+        if self._x > rows-3:
+            self._x = rows-3
     
-    def move_right(self,board,start,rows,columns):
+    def move_right(self,board1,start,rows,columns):
+        board = self._board
         self.clearplayer(board,start)
-        self.__y = self.__y + 2
+        self._y = self._y + 2
         self.check(start,rows,columns)
         self.place(board,start)
 
-    def move_left(self,board,start,rows,columns):
+    def move_left(self,board1,start,rows,columns):
+        board = self._board
         self.clearplayer(board,start)
-        self.__y = self.__y - 2
+        self._y = self._y - 2
         self.check(start,rows,columns)
         self.place(board,start)
 
-    def move_up(self,board,start,rows,columns):
+    def move_up(self,board1,start,rows,columns):
+        board = self._board
         self.clearplayer(board,start)
-        self.__x = self.__x - 2
+        self._x = self._x - 2
         self.check(start,rows,columns)
         self.place(board,start)
+        self.__timedown = time.time()
+        self.__last = self._x
 
-    def move_down(self,board,start,rows,columns):
+    def move_down(self,board1,start,rows,columns):
+        board = self._board
+        t = (time.time() - self.__timedown)
         self.clearplayer(board,start)
-        self.__x = self.__x + 1
+        self._x = self.__last + math.ceil(4*t*t)
+        # self._x = self._x + 1
         self.check(start,rows,columns)
         self.place(board,start)
 
     def ret_x(self):
-        return int(self.__x)
+        return int(self._x)
     
     def ret_y(self):
-        return int(self.__y)
+        return int(self._y)
 
     def lives(self):
-        return int(self.__life)
+        return int(self._lives)
     
     def score(self):
         return int(self.__score)

@@ -1,15 +1,18 @@
 class Magnet():
 
-    def __init__(self,x,y):
+    def __init__(self,x,y,board):
         self.__x = x
         self.__y = y
+        self.__board = board
 
-    def place(self,board):
+    def place(self,board1):
+        board = self.__board
         x = self.__x
         y = self.__y
         board[x][y] = 'M'
 
     def make_field(self,board):
+        # board = self.__board
         x = self.__x
         y = self.__y
         for i in range(7):

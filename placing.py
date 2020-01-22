@@ -38,7 +38,7 @@ def place(board,rows):
         y = random.randint(10,800-150)
         if (space5(x-1,y,board)) or (space5(x-1,y,board)) or (space5(x-1,y,board)):
             continue
-        obs_type1_placed.append(Obstacle(x,y,1))
+        obs_type1_placed.append(Obstacle(x,y,1,board))
         obs_type1_placed[i].place(board)
         i = i + 1
 
@@ -49,7 +49,7 @@ def place(board,rows):
         if (space5(x,y-1,board)) or (space5(x,y,board)) or (space5(x,y+1,board)):
             i = i-1
             continue
-        obs_type2_placed.append(Obstacle(x,y,2))
+        obs_type2_placed.append(Obstacle(x,y,2,board))
         obs_type2_placed[i].place(board)
         i = i + 1
 
@@ -60,7 +60,7 @@ def place(board,rows):
         if (board[x-1][y+1] != ' ') or (board[x][y] != ' ') or (board[x+1][y-1] != ' '):
             i = i-1
             continue
-        obs_type3_placed.append(Obstacle(x,y,3))
+        obs_type3_placed.append(Obstacle(x,y,3,board))
         obs_type3_placed[i].place(board)
         i = i + 1
 
@@ -70,7 +70,7 @@ def place(board,rows):
         y = random.randint(10,800-170)
         if board[x][y] != ' ':
             continue
-        coins_placed.append(Coin(x,y))
+        coins_placed.append(Coin(x,y,board))
         coins_placed[i].place(x,y,board)
         i = i + 1
 
@@ -82,7 +82,7 @@ def place(board,rows):
         # y = 60
         if board[x][y] != ' ':
             continue
-        mag = Magnet(x,y)
+        mag = Magnet(x,y,board)
         magnets.append(mag)
         magnets[i].make_field(mag_field)
         magnets[i].place(board)
@@ -96,7 +96,7 @@ def place(board,rows):
         # y = 60
         if board[x][y] != ' ':
             continue
-        sp = Speedup(x,y)
+        sp = Speedup(x,y,board)
         speedups.append(sp)
         speedups[i].place(board)
         i = i+1
