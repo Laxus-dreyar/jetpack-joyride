@@ -42,14 +42,12 @@ bullet_fg = 0
 boss = Boss(10,850)
 boss.make_shape()
 boss.place(game_board.grid)
-# game_board.print(columns)
-# quit()
 while True:
     cur_time = time.time()
     t_rem = 80 - int(cur_time - tme_beg)
     # print("\033[H\033[J")
     print('\033[0;0H')
-    game_board.print(columns)
+    game_board.print(columns,player.ret_x(),player.ret_y())
     print("Lives: ",player.lives(),"Score: ",player.score(),"Time remaining: ",t_rem)
 
     char = ness.user_input()
