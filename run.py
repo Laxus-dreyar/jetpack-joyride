@@ -16,7 +16,7 @@ columns = int(c) -3
 game_board = Field(rows,2000)
 game_board.create()
 player = Mandalorian(rows-3,10)
-player.place(game_board.grid,game_board.curscreen)
+player.place(game_board.grid,0)
 
 Back = Background()
 placing.place(game_board.grid,rows)
@@ -28,15 +28,18 @@ tme_beg = time.time()
 last_speedup = -1
 speedup_flag = 0
 magnet_flag = 0
+
 while True:
     cur_time = time.time()
     # print("\033[H\033[J")
     print('\033[0;0H')
     game_board.print(columns)
-    print("Lives: ",player.lives(),"Score: ",player.score(),"Time remaining: ",200 - (cur_time - tme_beg))
+    print("Lives: ",player.lives(),"Score: ",player.score(),"Time remaining: ",200 - int(cur_time - tme_beg))
 
     char = ness.user_input()
     
+    start_screen = game_board.get_curscreen()
+
     if last_speedup != -1 and cur_time - last_speedup > 5 and speedup_flag == 1:
         player.dec_spped()
         game_board.dec_speed()
@@ -52,10 +55,10 @@ while True:
             tm = time.time()
 
     elif char == 'd':
-        player.move_right(game_board.grid,game_board.curscreen,rows,columns)
+        player.move_right(game_board.grid,start_screen,rows,columns)
     
     elif char == 'a':
-        player.move_left(game_board.grid,game_board.curscreen,rows,columns)
+        player.move_left(game_board.grid,start_screen,rows,columns)
     
     elif char == 'b':
         x = player.ret_x()
@@ -64,18 +67,18 @@ while True:
         bullets.append(new_bull)
 
     if char == 'w':
-        player.move_up(game_board.grid,game_board.curscreen,rows,columns)
+        player.move_up(game_board.grid,start_screen,rows,columns)
     
     else:
         x = player.ret_x()
         if x != rows-3:
-            player.move_down(game_board.grid,game_board.curscreen,rows,columns)
+            player.move_down(game_board.grid,start_screen,rows,columns)
 
 
     for i in bullets:
         speed = game_board.get_speed()
-        i.clear(game_board.grid,game_board.curscreen,speed)
-        i.move(columns,game_board.grid,game_board.curscreen)
+        i.clear(game_board.grid,start_screen,speed)
+        i.move(columns,game_board.grid,start_screen)
         x = i.ret_x()
         y = i.ret_y()
         fg = i.flag_sts()
@@ -83,47 +86,47 @@ while True:
             obs_y = j.ret_y()
             obs_x = j.ret_x()
             fg = i.flag_sts()
-            if (obs_y -2 == y + game_board.curscreen or obs_y - 1 == y + game_board.curscreen or obs_y == y + game_board.curscreen or obs_y + 1 == y + game_board.curscreen or obs_y + 2 == y + game_board.curscreen) and fg == 0 and x == obs_x:
+            if (obs_y -2 == y + start_screen or obs_y - 1 == y + start_screen or obs_y == y + start_screen or obs_y + 1 == y + start_screen or obs_y + 2 == y + start_screen) and fg == 0 and x == obs_x:
                 j.destroy(game_board.grid)
-                i.destroy(game_board.grid,game_board.curscreen,speed)
+                i.destroy(game_board.grid,start_screen,speed)
 
         for j in placing.obs_type1_placed:
             obs_x = j.ret_x()
             obs_y = j.ret_y()
             fg = i.flag_sts()
-            if (obs_y -2 == y + game_board.curscreen or obs_y - 1 == y + game_board.curscreen or obs_y == y + game_board.curscreen or obs_y + 1 == y + game_board.curscreen or obs_y + 2 == y + game_board.curscreen) and fg == 0 and (x == obs_x or x == obs_x + 1 or x == obs_x -1):
+            if (obs_y -2 == y + start_screen or obs_y - 1 == y + start_screen or obs_y == y + start_screen or obs_y + 1 == y + start_screen or obs_y + 2 == y + start_screen) and fg == 0 and (x == obs_x or x == obs_x + 1 or x == obs_x -1):
                 j.destroy(game_board.grid)
-                i.destroy(game_board.grid,game_board.curscreen,speed)
+                i.destroy(game_board.grid,start_screen,speed)
         
         for j in placing.obs_type3_placed:
             obs_x = j.ret_x()
             fg = i.flag_sts()
             obs_y = j.ret_y()
-            if ((obs_x == x or obs_x == x-1 or obs_x == x + 1) and (obs_y == y+game_board.curscreen or obs_y - 1 == y+game_board.curscreen or obs_y + 1== y+game_board.curscreen or obs_y + 2== y+game_board.curscreen or obs_y - 2== y+game_board.curscreen)) and fg == 0:
+            if ((obs_x == x or obs_x == x-1 or obs_x == x + 1) and (obs_y == y+start_screen or obs_y - 1 == y+start_screen or obs_y + 1== y+start_screen or obs_y + 2== y+start_screen or obs_y - 2== y+start_screen)) and fg == 0:
                 j.destroy(game_board.grid)
-                i.destroy(game_board.grid,game_board.curscreen,speed)
+                i.destroy(game_board.grid,start_screen,speed)
         
-        i.place(game_board.grid,game_board.curscreen,columns)
+        i.place(game_board.grid,start_screen,columns)
     
     
     x = player.ret_x()
-    y = player.ret_y() + game_board.curscreen
+    y = player.ret_y() + start_screen
     if magnet_flag == 0:
         for i in placing.magnets:
             x1 = i.ret_x()
             y1 = i.ret_y()
-            if y1 > game_board.curscreen and y1 < game_board.curscreen + columns:
+            if y1 > start_screen and y1 < start_screen + columns:
                 if y > y1:
-                    player.move_left(game_board.grid,game_board.curscreen,rows,columns)
+                    player.move_left(game_board.grid,start_screen,rows,columns)
                 elif y < y1:
-                    player.move_right(game_board.grid,game_board.curscreen,rows,columns)
+                    player.move_right(game_board.grid,start_screen,rows,columns)
                 if x > x1:
-                    player.move_up(game_board.grid,game_board.curscreen,rows,columns)
+                    player.move_up(game_board.grid,start_screen,rows,columns)
                 elif x < x1:
-                    player.move_down(game_board.grid,game_board.curscreen,rows,columns)
+                    player.move_down(game_board.grid,start_screen,rows,columns)
             i.place(game_board.grid)
     
-    player.clearplayer(game_board.grid,game_board.curscreen)
+    player.clearplayer(game_board.grid,start_screen)
     
     if player.lives() == 0:
         quit()
@@ -136,7 +139,8 @@ while True:
     magnet_flag = magnet_flag%3
 
     game_board.movescreen()
-    player.place(game_board.grid,game_board.curscreen)
+    start_screen = game_board.get_curscreen()
+    player.place(game_board.grid,start_screen)
     if player.status_shield() == 1:
         tm1 = time.time()
         if tm1 - tm > 10:
