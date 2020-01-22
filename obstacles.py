@@ -4,6 +4,7 @@ class Obstacle:
         self.__x = x
         self.__y = y
         self.__shape = shape
+        self.__flag = 0
     
     def place(self,board):
         x = self.__x
@@ -25,11 +26,17 @@ class Obstacle:
     
     def ret_x(self):
         return self.__x
+        
     def ret_y(self):
         return self.__y
+    
+    def get_flag(self):
+        return self.__flag
+
     def destroy(self,board):
         x = self.__x
         y = self.__y
+        self.__flag = 1
         if self.__shape == 1:
             board[x-1][y] = ' '
             board[x][y] = ' '

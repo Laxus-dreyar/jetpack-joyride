@@ -11,7 +11,7 @@ from Back import Background
 from bullet import Bullet
 
 r,c = os.popen('stty size','r').read().split()
-rows = int(r)-3
+rows = int(r)-5
 columns = int(c) -3 
 game_board = Field(rows,2000)
 game_board.create()
@@ -85,6 +85,9 @@ while True:
         for j in placing.obs_type2_placed:
             obs_y = j.ret_y()
             obs_x = j.ret_x()
+            obs_fg = j.get_flag()
+            if(obs_fg == 1):
+                continue
             fg = i.flag_sts()
             if (obs_y -2 == y + start_screen or obs_y - 1 == y + start_screen or obs_y == y + start_screen or obs_y + 1 == y + start_screen or obs_y + 2 == y + start_screen) and fg == 0 and x == obs_x:
                 j.destroy(game_board.grid)

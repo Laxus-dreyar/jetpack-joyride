@@ -4,7 +4,7 @@ class Field:
         self.__rows = rows
         self.__columns = 20000
         self.grid = []
-        self.curscreen = 0
+        self.__curscreen = 0
         self.__speed = 1
 
     def create(self):
@@ -15,17 +15,17 @@ class Field:
             self.grid.append(arr)
 
     def print(self,columns):
-        start = self.curscreen
+        start = self.__curscreen
         for i in range(self.__rows):
             for j in range(start,start+columns):
                 print(self.grid[i][j],end='')
             print()
     
     def movescreen(self):
-        self.curscreen = self.curscreen + self.__speed
+        self.__curscreen = self.__curscreen + self.__speed
 
     def change_screen(self):
-        self.curscreen = 0
+        self.__curscreen = 0
 
     def inc_speed(self):
         self.__speed = self.__speed + 1
@@ -34,7 +34,7 @@ class Field:
         self.__speed = self.__speed - 1
 
     def get_curscreen(self):
-        return self.curscreen
+        return self.__curscreen
 
     def get_speed(self):
         return self.__speed
